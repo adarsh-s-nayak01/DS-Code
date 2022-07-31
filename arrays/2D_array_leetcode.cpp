@@ -100,6 +100,96 @@ public:
                 }
             }
         }
+    }
+    void setZeroes(vector<vector<int>>& matrix) {
+        unordered_set<int> row;
+        unordered_set<int> col;
+        int r=matrix.size();
+        int c=matrix[0].size();
+        for(int i=0;i<r;++i){
+            for(int j=0;j<c;++j){
+                if(matrix[i][j]==0){
+                    row.insert(i);
+                    col.insert(j);
+                }
+            }
+        } 
+        for(int i=0;i<r;++i){
+            for(int j=0;j<c;++j){
+                if(row.find(i)!=row.end() || col.find(j)!=col.end()){
+                    matrix[i][j]=0;
+                }
+            }
+        }
+
+        //create a dummy array within.
+        //like col=0 and row=0 is a dummy array.
+        int col0=1 ,rows=matrix.size(), cols=matrix[0].size();
+        for(int i=0;i<rows;++i){
+            if(matrix[i][0]==0) col0=0;
+            for(int j=1;j<cols;j++){
+                if(matrix[i][j]==0){
+                    matrix[i][0]=matrix[0][j]=0;
+                }
+            }
+        }
+        //traverse form the back.
+        for(int i=rows-1;i>=0;i--){
+            for(int j=cols-1;j>=1;j--){
+                if(matrix[i][0]==0 || matrix[0][j]==0){
+                    matrix[i][j]=0;
+                }
+                    
+                if(col0==0) {matrix[i][0]=0;}
+            }
+        }
+    }
+
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size(), k, l;
+    	for (k = n - 2; k >= 0; k--) {
+            if (nums[k] < nums[k + 1]) {
+                break;
+            }
+        }
+    	if (k < 0) {
+    	    reverse(nums.begin(), nums.end());
+    	} else {
+    	    for (l = n - 1; l > k; l--) {
+                if (nums[l] > nums[k]) {
+                    break;
+                }
+            } 
+    	    swap(nums[k], nums[l]);
+    	    reverse(nums.begin() + k + 1, nums.end());
+        }
+    }
+    int maxSubArray(vector<int>& nums) {
+        int sum=0;
+        int maxi=INT_MIN;
+        for(auto it:nums){
+            sum+=it;
+            maxi= sum>maxi ? sum : maxi;
+            if(sum<0) sum=0;
+        }
+        return maxi;
+
+    }
+    void sortColors(vector<int>& nums) {
+        for(int i=0;i<nums.size()-1;++i){
+            for(int j=i+1;j<nums.size();++j)
+                if(nums[i]>nums[j])
+                    swap(nums[i],nums[j]);
+        }
+        //o(n) solution.
+        int n=nums.size();
+        int j=0;int k=n-1;
+        for(int i=0;i<=k;++i){
+            if(nums[i]==0)
+                swap(nums[i],nums[j++]);//swap and then increment.
+            else if(nums[i]==2)
+                swap(nums[i--],nums[k--]);//check if the swapped number is also 2
+                // so decrement i and then higher bound also decreases 
         }
     }
 };
