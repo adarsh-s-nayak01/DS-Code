@@ -7,6 +7,7 @@ struct ListNode {
    ListNode *bottom;
 //    int flag;
     ListNode(int x) : val(x), next(NULL) {}
+     ListNode(int x, ListNode *next) : val(x), next(next) {}
  };
 // class ListNode{
 //     public:
@@ -413,8 +414,32 @@ public:
     // }
 
     // return new_head;
-
-
-    
     }
+    ListNode* removeElements(ListNode* head, int val) {
+        // ListNode* prev=new ListNode(0,head);
+        // ListNode* new_head=prev;
+        // ListNode* next=head;
+        // if(head==NULL) return head;
+        // while(next!=NULL){
+        //     if(next->val==val){
+        //         ListNode* temp=next;
+        //         prev->next=next->next;
+        //         next=prev->next;
+        //         temp->next=NULL;
+        //         delete temp;
+        //     }
+        //     else{
+        //         next=next->next;
+        //         prev=prev->next;
+        //     }
+        // }
+        // return new_head->next;
+
+        //recursive approach.
+        if(head==NULL) return head;
+        head->next=removeElements(head->next,val);
+        return head->val==val? head->next:head;
+    }
+   
+    
 };

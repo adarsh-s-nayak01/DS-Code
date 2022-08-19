@@ -192,4 +192,41 @@ public:
                 // so decrement i and then higher bound also decreases 
         }
     }
+    bool comparator(pair<int,int> a,pair<int,int> b){
+        return a.first>b.first;        
+
+    }
+    int minimumOperations(vector<int>& nums) {
+        int n=nums.size();
+        map<int,int> odd,even;
+        for(int i=0;i<n;++i){
+            if(i&1){
+                odd[nums[i]]++;
+            }
+            else{even[nums[i]]++;}
+        }
+        vector<pair<int,int>> v1,v2;
+        for(auto it:odd){
+            v1.push_back({it.first,it.second});
+        }
+        for(auto it:even){
+            v2.push_back({it.first,it.second});
+        }
+        int oddlen=(n+1)/2;
+        int evenlen=n/2;
+        sort(v1.begin(),v1.end(),[](pair<int,int> a,pair<int,int> b){return a.second>b.second;});
+        sort(v2.begin(),v2.end(),[](pair<int,int> a,pair<int,int> b){return a.second>b.second;});
+
+        int of=v1.size()==0? 0 : v1[0].first;
+        int ef=v2.size()==0? 0 : v2[0].first;
+        int e1=v2.size()==0? 0 : v2[0].second;
+        int e2=v2.size()<=1? 0 : v2[1].second;
+        int o1=v1.size()==0? 0 : v1[0].second;
+        int o2=v1.size()<=1? 0 : v1[1].second;
+
+        if(of==ef){
+            return min(oddlen-o1+evenlen-e2,oddlen-o2,+evenlen-e1);
+        }
+        return oddlen-o1+evenlen-e1;
+    }
 };
